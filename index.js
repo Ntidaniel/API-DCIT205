@@ -151,6 +151,20 @@ app.post('/submitVitals', async (req, res) => {
   }
 });
 
+// View a list of patients
+app.get('/patients', async (req, res) => {
+  try {
+    // Retrieve a list of patients from the database
+    const patients = await Patient.find();
+
+    // Respond with the list of patients
+    res.status(200).json(patients);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 // Start the server
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
