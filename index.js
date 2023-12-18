@@ -165,6 +165,25 @@ app.get('/patients', async (req, res) => {
   }
 });
 
+// View details of a specific patient
+app.get('/patients/:patientId', async (req, res) => {
+  try {
+    const patientId = req.params.patientId;
+
+    // Retrieve the patient details from the database
+    const patient = await Patient.findById(patientId);
+    if (!patient) {
+      return res.status(404).json({ error: 'Patient not found' });
+    }
+
+    // Respond with the patient details
+    res.status(200).json(patient);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 // Start the server
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
